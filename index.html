@@ -500,19 +500,7 @@
   revealEls.forEach(el => io.observe(el));
 
   // ─── PHOTO UPLOAD ──────────────────────────────────────────────────
-  document.getElementById('photoInput').addEventListener('change', function() {
-    const file = this.files[0];
-    if (!file) return;
-    const reader = new FileReader();
-    reader.onload = e => {
-      const img = document.getElementById('photoImg');
-      img.src = e.target.result;
-      img.style.display = 'block';
-      document.querySelector('.photo-placeholder-icon').style.display = 'none';
-      document.querySelector('.photo-label-text').style.display = 'none';
-    };
-    reader.readAsDataURL(file);
-  });
+
 
   // ─── TYPEWRITER LETTER ─────────────────────────────────────────────
   // ✏️ EDITE o texto da carta abaixo (entre as aspas de cada linha)
@@ -540,7 +528,7 @@
 
   let currentLine = 0;
   let currentChar = 0;
-  let typingTimer = null;
+  var typingTimer = null;
   const output = document.getElementById('letter-output');
   const cur    = document.getElementById('cursor');
 
@@ -579,9 +567,10 @@
   const letterObserver = new IntersectionObserver(entries => {
     if (entries[0].isIntersecting && !letterStarted) {
       letterStarted = true;
+      letterObserver.disconnect();
       setTimeout(startLetter, 600);
     }
-  }, { threshold: 0.3 });
+  }, { threshold: 0.05, rootMargin: '0px 0px -50px 0px' });
   letterObserver.observe(letterSection);
 </script>
 </body>
